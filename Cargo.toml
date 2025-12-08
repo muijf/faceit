@@ -8,7 +8,7 @@ license = "MIT"
 repository = "https://github.com/muijf/faceit"
 homepage = "https://github.com/muijf/faceit"
 documentation = "https://docs.rs/faceit"
-keywords = ["faceit", "csgo", "counter-strike", "api", "client"]
+keywords = ["faceit", "csgo", "counter-strike", "api", "client", "esports", "gaming"]
 categories = ["api-bindings", "web-programming"]
 readme = "README.md"
 

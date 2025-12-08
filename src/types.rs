@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 // ============================================================================
 
 /// Pagination metadata for list responses
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct Pagination {
     pub start: i64,
     pub end: i64,
@@ -70,7 +70,7 @@ pub struct GameDetail {
 }
 
 /// User settings
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct UserSettings {
     pub language: Option<String>,
 }
@@ -163,7 +163,7 @@ pub struct Match {
 }
 
 /// Match result
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct MatchResult {
     pub score: Option<std::collections::HashMap<String, i64>>,
     pub winner: Option<String>,
@@ -179,7 +179,7 @@ pub struct DetailedMatchResult {
 }
 
 /// Faction result
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct FactionResult {
     pub score: i64,
 }
@@ -235,7 +235,7 @@ pub struct SkillLevel {
 }
 
 /// Skill level range
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct SkillLevelRange {
     pub min: Option<i64>,
     pub max: Option<i64>,
@@ -588,7 +588,7 @@ pub struct Championship {
 }
 
 /// Prize
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct Prize {
     pub rank: i64,
     #[serde(rename = "faceit_points")]
@@ -617,7 +617,7 @@ pub struct JoinCheck {
 }
 
 /// Championship schedule
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct ChampionshipSchedule {
     pub date: i64,
     pub status: String,
@@ -850,7 +850,7 @@ pub struct CompetitionsSearchList {
 // ============================================================================
 
 /// Global ranking entry
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct GlobalRanking {
     #[serde(rename = "player_id")]
     pub player_id: String,

@@ -5,7 +5,7 @@ use std::time::Duration;
 const DEFAULT_BASE_URL: &str = "https://open.faceit.com";
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 
-/// Builder for creating a customized `Client`
+/// Builder for creating a customized [`Client`]
 pub struct ClientBuilder {
     base_url: Option<String>,
     api_key: Option<String>,
@@ -100,6 +100,10 @@ impl ClientBuilder {
 
     /// Build the client
     ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the underlying HTTP client fails to build.
+    ///
     /// # Examples
     ///
     /// ```no_run
@@ -147,6 +151,12 @@ impl Client {
     ///
     /// Requests without authentication are subject to standard rate limits.
     ///
+    /// # Panics
+    ///
+    /// Panics if the underlying HTTP client fails to build. This should only happen
+    /// in exceptional circumstances (e.g., invalid TLS configuration). For more
+    /// control over error handling, use [`builder`](Self::builder) instead.
+    ///
     /// # Examples
     ///
     /// ```no_run
@@ -161,6 +171,8 @@ impl Client {
     }
 
     /// Create a builder for customizing the client configuration
+    ///
+    /// Returns a [`ClientBuilder`] for configuring the client.
     ///
     /// # Examples
     ///
@@ -185,8 +197,16 @@ impl Client {
 
     /// Get player details by player ID
     ///
+    /// Returns a [`Player`](crate::types::Player) struct with player information.
+    ///
     /// # Arguments
     /// * `player_id` - The FACEIT player ID (UUID format)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response (e.g., 404 if player not found).
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -210,10 +230,18 @@ impl Client {
 
     /// Get player details from lookup (by nickname, game, or game_player_id)
     ///
+    /// Returns a [`Player`](crate::types::Player) struct with player information.
+    ///
     /// # Arguments
     /// * `nickname` - Optional player nickname
     /// * `game` - Optional game ID
     /// * `game_player_id` - Optional game-specific player ID
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -255,6 +283,12 @@ impl Client {
     /// * `player_id` - The FACEIT player ID
     /// * `game_id` - The game ID (e.g., "cs2", "csgo")
     ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
+    ///
     /// # Examples
     ///
     /// ```no_run
@@ -283,6 +317,8 @@ impl Client {
 
     /// Get player match history
     ///
+    /// Returns a [`MatchHistoryList`](crate::types::MatchHistoryList) containing match history entries.
+    ///
     /// # Arguments
     /// * `player_id` - The FACEIT player ID
     /// * `game` - The game ID (required)
@@ -290,6 +326,12 @@ impl Client {
     /// * `to` - Optional end timestamp (Unix time)
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -334,10 +376,18 @@ impl Client {
 
     /// Get player bans
     ///
+    /// Returns a [`PlayerBansList`](crate::types::PlayerBansList) containing ban information.
+    ///
     /// # Arguments
     /// * `player_id` - The FACEIT player ID
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -372,10 +422,18 @@ impl Client {
 
     /// Get player hubs
     ///
+    /// Returns a [`HubsList`](crate::types::HubsList) containing hub information.
+    ///
     /// # Arguments
     /// * `player_id` - The FACEIT player ID
     /// * `offset` - Optional offset for pagination (default: 0, max: 1000)
     /// * `limit` - Optional limit for pagination (default: 50, max: 50)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -410,10 +468,18 @@ impl Client {
 
     /// Get player teams
     ///
+    /// Returns a [`TeamList`](crate::types::TeamList) containing team information.
+    ///
     /// # Arguments
     /// * `player_id` - The FACEIT player ID
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -448,10 +514,18 @@ impl Client {
 
     /// Get player tournaments
     ///
+    /// Returns a [`TournamentsList`](crate::types::TournamentsList) containing tournament information.
+    ///
     /// # Arguments
     /// * `player_id` - The FACEIT player ID
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -493,8 +567,16 @@ impl Client {
 
     /// Get match details
     ///
+    /// Returns a [`Match`](crate::types::Match) struct with match information.
+    ///
     /// # Arguments
     /// * `match_id` - The FACEIT match ID
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -517,8 +599,16 @@ impl Client {
 
     /// Get match statistics
     ///
+    /// Returns a [`MatchStats`](crate::types::MatchStats) struct with detailed match statistics.
+    ///
     /// # Arguments
     /// * `match_id` - The FACEIT match ID
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -548,6 +638,12 @@ impl Client {
     /// # Arguments
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -581,8 +677,16 @@ impl Client {
 
     /// Get game details
     ///
+    /// Returns a [`Game`](crate::types::Game) struct with game information.
+    ///
     /// # Arguments
     /// * `game_id` - The game ID (e.g., "cs2", "csgo")
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -604,6 +708,8 @@ impl Client {
     }
 
     /// Get parent game details (for region-specific games)
+    ///
+    /// Returns a [`Game`](crate::types::Game) struct with parent game information.
     ///
     /// # Arguments
     /// * `game_id` - The game ID
@@ -629,11 +735,19 @@ impl Client {
 
     /// Get game matchmakings
     ///
+    /// Returns a [`MatchmakingList`](crate::types::MatchmakingList) containing matchmaking information.
+    ///
     /// # Arguments
     /// * `game_id` - The game ID
     /// * `region` - Optional region filter
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -680,6 +794,12 @@ impl Client {
     /// * `hub_id` - The hub ID
     /// * `expanded` - Optional list of entities to expand (e.g., ["organizer", "game"])
     ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
+    ///
     /// # Examples
     ///
     /// ```no_run
@@ -706,11 +826,19 @@ impl Client {
 
     /// Get hub matches
     ///
+    /// Returns a [`MatchesList`](crate::types::MatchesList) containing match information.
+    ///
     /// # Arguments
     /// * `hub_id` - The hub ID
     /// * `match_type` - Optional match type filter ("all", "upcoming", "ongoing", "past")
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -749,10 +877,18 @@ impl Client {
 
     /// Get hub members
     ///
+    /// Returns a [`HubMembers`](crate::types::HubMembers) containing member information.
+    ///
     /// # Arguments
     /// * `hub_id` - The hub ID
     /// * `offset` - Optional offset for pagination (default: 0, max: 1000)
     /// * `limit` - Optional limit for pagination (default: 50, max: 50)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -787,10 +923,18 @@ impl Client {
 
     /// Get hub statistics
     ///
+    /// Returns a [`HubStats`](crate::types::HubStats) containing hub statistics.
+    ///
     /// # Arguments
     /// * `hub_id` - The hub ID
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -829,11 +973,19 @@ impl Client {
 
     /// Get championships for a game
     ///
+    /// Returns a [`ChampionshipsList`](crate::types::ChampionshipsList) containing championship information.
+    ///
     /// # Arguments
     /// * `game` - The game ID (required)
     /// * `championship_type` - Optional type filter ("all", "upcoming", "ongoing", "past")
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 10, max: 10)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -873,9 +1025,17 @@ impl Client {
 
     /// Get championship details
     ///
+    /// Returns a [`Championship`](crate::types::Championship) struct with championship information.
+    ///
     /// # Arguments
     /// * `championship_id` - The championship ID
     /// * `expanded` - Optional list of entities to expand (e.g., ["organizer", "game"])
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -910,11 +1070,19 @@ impl Client {
 
     /// Get championship matches
     ///
+    /// Returns a [`MatchesList`](crate::types::MatchesList) containing match information.
+    ///
     /// # Arguments
     /// * `championship_id` - The championship ID
     /// * `match_type` - Optional match type filter ("all", "upcoming", "ongoing", "past")
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -960,12 +1128,20 @@ impl Client {
 
     /// Search for players
     ///
+    /// Returns a [`UsersSearchList`](crate::types::UsersSearchList) containing search results.
+    ///
     /// # Arguments
     /// * `nickname` - Player nickname to search for (required)
     /// * `game` - Optional game ID filter
     /// * `country` - Optional country code filter (ISO 3166-1)
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -1009,11 +1185,19 @@ impl Client {
 
     /// Search for teams
     ///
+    /// Returns a [`TeamsSearchList`](crate::types::TeamsSearchList) containing search results.
+    ///
     /// # Arguments
     /// * `nickname` - Team nickname to search for (required)
     /// * `game` - Optional game ID filter
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -1053,12 +1237,20 @@ impl Client {
 
     /// Search for hubs
     ///
+    /// Returns a [`CompetitionsSearchList`](crate::types::CompetitionsSearchList) containing search results.
+    ///
     /// # Arguments
     /// * `name` - Hub name to search for (required)
     /// * `game` - Optional game ID filter
     /// * `region` - Optional region filter
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -1106,12 +1298,20 @@ impl Client {
 
     /// Get global ranking for a game and region
     ///
+    /// Returns a [`GlobalRankingList`](crate::types::GlobalRankingList) containing ranking information.
+    ///
     /// # Arguments
     /// * `game_id` - The game ID
     /// * `region` - The region (required)
     /// * `country` - Optional country code filter (ISO 3166-1)
     /// * `offset` - Optional offset for pagination (default: 0)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -1154,12 +1354,20 @@ impl Client {
 
     /// Get player ranking in global ranking
     ///
+    /// Returns a [`PlayerGlobalRanking`](crate::types::PlayerGlobalRanking) containing player ranking information.
+    ///
     /// # Arguments
     /// * `game_id` - The game ID
     /// * `region` - The region (required)
     /// * `player_id` - The player ID (required)
     /// * `country` - Optional country code filter (ISO 3166-1)
     /// * `limit` - Optional limit for pagination (default: 20, max: 100)
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::Http`] if the HTTP request fails.
+    /// Returns [`Error::Api`] if the API returns an error response.
+    /// Returns [`Error::Json`] if the response cannot be parsed.
     ///
     /// # Examples
     ///
@@ -1261,6 +1469,16 @@ impl Client {
             }
         }
     }
+
+    /// Get the base URL
+    pub fn base_url(&self) -> &str {
+        &self.base_url
+    }
+
+    /// Get the API key if set
+    pub fn api_key(&self) -> Option<&str> {
+        self.api_key.as_deref()
+    }
 }
 
 impl Default for Client {
@@ -1276,9 +1494,15 @@ mod tests {
     #[test]
     fn test_client_builder() {
         let builder = ClientBuilder::new();
-        assert!(builder.base_url.is_none());
-        assert!(builder.api_key.is_none());
-        assert!(builder.timeout.is_some());
+        // Test that builder can be created and configured
+        let client = builder
+            .base_url("https://test.example.com")
+            .api_key("test-key")
+            .timeout(Duration::from_secs(60))
+            .build()
+            .unwrap();
+        assert_eq!(client.base_url(), "https://test.example.com");
+        assert_eq!(client.api_key(), Some("test-key"));
     }
 
     #[test]
@@ -1290,14 +1514,14 @@ mod tests {
             .build()
             .unwrap();
 
-        assert_eq!(client.base_url, "https://test.example.com");
-        assert_eq!(client.api_key, Some("test-key".to_string()));
+        assert_eq!(client.base_url(), "https://test.example.com");
+        assert_eq!(client.api_key(), Some("test-key"));
     }
 
     #[test]
     fn test_client_default_base_url() {
         let client = Client::new();
-        assert_eq!(client.base_url, "https://open.faceit.com");
+        assert_eq!(client.base_url(), "https://open.faceit.com");
     }
 
     #[test]
