@@ -1,0 +1,46 @@
+[package]
+name = "faceit"
+version = "0.1.0"
+edition = "2024"
+authors = ["Milan de Kruijf"]
+description = "A Rust client library for the FACEIT Public API"
+license = "MIT"
+repository = "https://github.com/muijf/faceit"
+homepage = "https://github.com/muijf/faceit"
+documentation = "https://docs.rs/faceit"
+keywords = ["faceit", "csgo", "counter-strike", "api", "client"]
+categories = ["api-bindings", "web-programming"]
+readme = "README.md"
+
+[lib]
+name = "faceit"
+path = "src/lib.rs"
+
+[features]
+default = ["ergonomic", "rustls-tls"]
+# Enable ergonomic APIs for Player, Match, Game, Hub, and Championship
+ergonomic = []
+# Use rustls as the TLS backend for reqwest (default)
+rustls-tls = ["reqwest/rustls-tls"]
+# Use native-tls as the TLS backend for reqwest
+native-tls = ["reqwest/native-tls"]
+
+[dependencies]
+reqwest = { version = "0.12", features = ["json"], default-features = false }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+[package.metadata.docs.rs]
+all-features = true
+
+[[example]]
+name = "basic_usage"
+path = "examples/basic_usage.rs"
+
+[[example]]
+name = "ergonomic_api"
+path = "examples/ergonomic_api.rs"
+required-features = ["ergonomic"]
