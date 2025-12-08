@@ -12,9 +12,9 @@ if [ -z "$CARGO_VERSION" ]; then
 fi
 
 # Check if README.md contains the version
-if ! grep -q "leetify = \"$CARGO_VERSION\"" README.md; then
+if ! grep -q "faceit = \"$CARGO_VERSION\"" README.md; then
     echo "ERROR: README.md does not contain version '$CARGO_VERSION' from Cargo.toml"
-    echo "Expected: leetify = \"$CARGO_VERSION\""
+    echo "Expected: faceit = \"$CARGO_VERSION\""
     echo "Please update README.md to match Cargo.toml version"
     exit 1
 fi
