@@ -62,7 +62,7 @@ pub struct GameDetail {
     #[serde(rename = "game_profile_id")]
     pub game_profile_id: Option<String>,
     pub region: Option<String>,
-    pub regions: Option<Vec<String>>,
+    pub regions: Option<std::collections::HashMap<String, serde_json::Value>>,
     #[serde(rename = "skill_level")]
     pub skill_level: Option<i64>,
     #[serde(rename = "skill_level_label")]
