@@ -42,7 +42,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-faceit = "0.1.0"
+faceit = "0.1.1"
 tokio = { version = "1", features = ["full"] }
 ```
 
@@ -62,13 +62,13 @@ tokio = { version = "1", features = ["full"] }
 
 ```toml
 # Default (includes ergonomic APIs and rustls)
-faceit = "0.1.0"
+faceit = "0.1.1"
 
 # Minimal setup (without ergonomic APIs)
-faceit = { version = "0.1.0", default-features = false, features = ["rustls-tls"] }
+faceit = { version = "0.1.1", default-features = false, features = ["rustls-tls"] }
 
 # With native-tls instead of rustls
-faceit = { version = "0.1.0", default-features = false, features = ["ergonomic", "native-tls"] }
+faceit = { version = "0.1.1", default-features = false, features = ["ergonomic", "native-tls"] }
 ```
 
 ## Quick Start
